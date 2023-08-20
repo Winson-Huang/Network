@@ -33,10 +33,10 @@ public class ConnectServer {
             while (in.hasNextLine()) {
                 System.out.println(in.nextLine());
             }
-            in.close();
-            socket.close();
         } catch (InterruptedIOException e) {
             System.out.println("timeout");
         } 
+
+        socket.close();
     }
 }
