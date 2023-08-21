@@ -12,17 +12,18 @@ public class ThreadedServer {
         ThreadedServer.startServer(EchoHandler.class);
     }
 
-    public static void startServer(Class<?> runableClass) {
+
+    public static void startServer(Class<? extends Runnable> runnableClass) {
         try (ServerSocket welcomeSocket = new ServerSocket(8189)) {
             int i = 1;
             while (true) {
-                Socket s = welcomeSocket.accept();
+                Socket socket = welcomeSocket.accept();
                 System.out.println("Connection Number: " + i);
-                // Runnable r = new EchoHandler(s);
-                Runnable r = (Runnable) runableClass.getConstructor(Socket.class).newInstance(s);
+                i++;
+
+                Runnable r = runnableClass.getConstructor(Socket.class).newInstance(socket);
                 Thread t = new Thread(r);
                 t.start();
-                i++;
             }
         } catch (Exception e) {
             e.printStackTrace();
